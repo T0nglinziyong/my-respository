@@ -376,4 +376,7 @@ if __name__ == "__main__":
     train_bert(train_iter, net, loss, len(vocab), 200)
 
     torch.save(net.state_dict(), 'bert_my_data.pt')
+    print('finish training')
+    print("you can do it LIN!")
+    print("continue !")
 
