@@ -59,7 +59,7 @@ class Dataset(torch.utils.data.Dataset):
             pred_positions.append(pred_position)
             pred_ids.append(pred_idx)
         self.inputs, self.segments, self.valid_lens, self.pred_positions, self.pred_weights, self.pred_ids, self.is_nexts = \
-            padding(zip(inputs, segments, pred_positions, pred_ids, is_nexts), max_len)
+            padding(zip(inputs, segments, pred_positions, pred_ids, is_nexts), max_len) 
         self.vocab = vocab
 
     def __len__(self):

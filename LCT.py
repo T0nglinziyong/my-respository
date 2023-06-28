@@ -177,22 +177,24 @@ if __name__ == "__main__":
     step = 0
     loss_avg = 0
     vis = Visdom(env='train')
-    vis.line([[0.]], [0.], win='train_mydata', opts=dict(showlegend=True, legend=['loss']))
+    
     for epoch in range(num_epochs):
         for (sentence1, sentence2, valid_len1, valid_len2, is_next) in data_loader:
             trainer.zero_grad()
             judge = net((sentence1, sentence2), (valid_len1, valid_len2))
-            l = loss(judge, is_next) * 100
+            l = loss(judge, is_next)
             l.backward()
             trainer.step()
             loss_avg += l.detach()
             step += 1
-            if step % 20 == 0:
-                vis.line([loss_avg / 20], [step // 20], win='train_mydata', update='append')
-                print(step // 20, 'loss=', loss_avg / 20)
-                loss_avg = 0
+            if step % 1 == 0:
+                if step == 1:
+                    vis.line([[loss_avg / step]], [0.], win='train_mydata', opts=dict(showlegend=True, legend=['loss']))
+                else:
+                    vis.line([[loss_avg / step]], [step], win='train_mydata', update='append')
+                print(step, 'loss=', l.detach())
     
-    torch.save(net.state_dict, "LCT.pt")
+    torch.save(net.state_dict(), "LCT.pt")
 
 
 
